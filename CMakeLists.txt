@@ -163,13 +163,10 @@ if (BUILD_SHARED_LIB)
             ARCHIVE_OUTPUT_DIRECTORY ${SHARED_LIB_TEST_APP_DIR}
         )
 
-        # Post-build copy of shared lib to test app dir
-        # add_custom_command(TARGET examplec_shared POST_BUILD
-        #     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        #         "$<TARGET_FILE:examplec_shared>"
-        #         "${SHARED_LIB_TEST_APP_DIR}"
-        #     COMMENT "Copying shared library to test app directory"
-        # )
+        add_custom_command(TARGET ${PROJECT_NAME}_shared_test_app POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}_shared_test_app> $<TARGET_FILE_DIR:${PROJECT_NAME}_shared_test_app>
+            COMMAND_EXPAND_LISTS
+        )
     endif()
 
 endif()

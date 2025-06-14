@@ -17,6 +17,6 @@ echo Running CMake with MSVC (Visual Studio 2022)...
 %CMAKE% .. -G "Visual Studio 17 2022" -A x64
 
 echo Building the project...
-%CMAKE% --build . --config %CONFIG%
+%CMAKE% --build . --config %CONFIG% --verbose
 
 cd ..

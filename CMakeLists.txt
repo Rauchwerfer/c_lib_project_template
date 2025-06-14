@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.30.5)
 project(examplec C) 
 
+set(PROJECT_NAME_UPPER_CASE ${PROJECT_NAME})
+string(TOUPPER ${PROJECT_NAME_UPPER_CASE} PROJECT_NAME_UPPER_CASE)
+message(STATUS "Project name (upper case): ${PROJECT_NAME_UPPER_CASE}")
+
 # Set C standard to C17
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -65,7 +69,7 @@ if (BUILD_STATIC_LIB)
 
     add_library(${PROJECT_NAME}_static STATIC ${LIB_API} ${LIB_SOURCES} ${LIB_HEADERS})
 
-    target_compile_definitions(${PROJECT_NAME}_static PRIVATE EXAMPLEC_STATIC_DEFINE)
+    target_compile_definitions(${PROJECT_NAME}_static PRIVATE ${PROJECT_NAME_UPPER_CASE}_STATIC_DEFINE)
 
     target_include_directories(${PROJECT_NAME}_static
             PUBLIC  ${CMAKE_SOURCE_DIR}/inc
@@ -86,7 +90,7 @@ if (BUILD_STATIC_LIB)
     if (BUILD_STATIC_LIB_TEST_APP)
         add_executable(${PROJECT_NAME}_static_test_app ${TEST_APP_SOURCES} ${TEST_APP_HEADERS})
 
-        target_compile_definitions(${PROJECT_NAME}_static_test_app PRIVATE EXAMPLEC_STATIC_DEFINE)
+        target_compile_definitions(${PROJECT_NAME}_static_test_app PRIVATE ${PROJECT_NAME_UPPER_CASE}_STATIC_DEFINE)
 
         target_include_directories(${PROJECT_NAME}_static_test_app
             PRIVATE ${CMAKE_SOURCE_DIR}/inc
@@ -115,7 +119,7 @@ if (BUILD_SHARED_LIB)
 
     add_library(${PROJECT_NAME}_shared SHARED ${LIB_API} ${LIB_SOURCES} ${LIB_HEADERS})
 
-    target_compile_definitions(${PROJECT_NAME}_shared PRIVATE EXAMPLEC_EXPORTS)
+    target_compile_definitions(${PROJECT_NAME}_shared PRIVATE ${PROJECT_NAME_UPPER_CASE}_EXPORTS)
 
     target_include_directories(${PROJECT_NAME}_shared
             PUBLIC  ${CMAKE_SOURCE_DIR}/inc
@@ -136,7 +140,7 @@ if (BUILD_SHARED_LIB)
         target_compile_options(${PROJECT_NAME}_shared PRIVATE -Wall)
     endif()
 
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    if (CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
         set(CMAKE_POSITION_INDEPENDENT_CODE ON)  # Equivalent to -fPIC
     endif()
 
